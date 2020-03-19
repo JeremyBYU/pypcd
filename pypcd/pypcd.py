@@ -265,11 +265,12 @@ def parse_binary_compressed_pc_data(f, dtype, metadata):
     if len(buf) != uncompressed_size:
         raise IOError('Error decompressing data')
     # the data is stored field-by-field
-    pc_data = np.zeros(metadata['width'], dtype=dtype)
+    pc_size = metadata['points'] if metadata.get('points') else metadata['width'] * metadata['height']
+    pc_data = np.zeros(pc_size, dtype=dtype)
     ix = 0
     for dti in range(len(dtype)):
         dt = dtype[dti]
-        bytes = dt.itemsize * metadata['width']
+        bytes = dt.itemsize * pc_size
         column = np.fromstring(buf[ix:(ix+bytes)], dt)
         pc_data[dtype.names[dti]] = column
         ix += bytes

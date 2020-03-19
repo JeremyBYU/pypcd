@@ -1,3 +1,5 @@
+test_data
+.vscode
 .*.swp
 *.pyc
 pypcd.egg-info
